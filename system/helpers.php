@@ -60,13 +60,11 @@ function getPost($key = null){
         return $_POST;
     }
     else
-        return (isset($_POST[$key])) ? $_POST[$key] : false;
+        return (isset($_POST[$key])) ? dbEscape($_POST[$key]) : false;
 }
-
 //clear string, for prevent sql injection
 function dbEscape($str){
     $link = dbConnect();
-
     if(is_array($str)){
         $arr = $str;
         foreach ($arr as $key => $value){
@@ -75,11 +73,9 @@ function dbEscape($str){
 
             $str[$key] = $value;
         }
-
     }else{
         $str = mysqli_real_escape_string($link, $str);
     }
-
     dbClose($link);
     return $str;
 }

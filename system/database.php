@@ -8,7 +8,16 @@
 include 'config.php';
 include 'helpers.php';
 
+//verify if mail exists
+function mailExists($mail){
+    $link = dbConnect();
+    
+    $query = "SELECT mail FROM members WHERE name = '$mail'";
+    
+    $result = mysqli_query($link,$query);
 
+    var_dump(mysqli_fetch_assoc($result));
+}
 
 //db connection
 function dbConnect(){
