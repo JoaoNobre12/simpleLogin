@@ -16,13 +16,13 @@ function registerValidate(){
     if (!!getPost('send')) {
         $message = null;
 
-        $username = getPost('username');
+        $name = getPost('username');
         $mail = getPost('mail');
         $nick = getPost('nickname');
         $pass = getPost('password');
         $confirm_pass = getPost('confirm_password');
 
-        if (empty($username))
+        if (empty($name))
             $message = "Type your name!";
         else if (empty($mail))
             $message = "Type your e-mail!";
@@ -37,7 +37,24 @@ function registerValidate(){
             $message = "Passwords do not match!";
 
         else{
-            mailExists($mail);
+            if(mailExists($mail) == true)
+                $message = "This e-mail already exists!";
+            else if (userExists($nick) == true)
+                $message = "This username is already in use!";
+
+            else{
+                $register = registerUser($name, $mail, $nick, $pass);
+
+                if (!$register)
+                    $message = "Sorry, something wrong is happening...";
+                else{
+                    $message = "you are registered! :')";
+
+
+                }
+
+            }
+
         }
         echo ($message) ? $message."<hr/>" : null;
     }
